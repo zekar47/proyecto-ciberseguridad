@@ -1,0 +1,19 @@
+[SQLi]
+  captura -> evidencias/capturas_fix/v01_sqli_login_payload.png
+  captura -> evidencias/capturas_fix/v02_sqli_login_resultado.png
+  captura -> evidencias/capturas_fix/v03_sqli_busqueda_normal.png
+  captura -> evidencias/capturas_fix/v04_sqli_union_usuarios.png
+  captura -> evidencias/capturas_fix/v05_sqli_error_expuesto.png
+[XSS]
+  captura -> evidencias/capturas_fix/v06_xss_reflejado_banner.png
+  captura -> evidencias/capturas_fix/v07_xss_almacenado_publicacion.png
+  captura -> evidencias/capturas_fix/v08_xss_almacenado_victima.png
+[IDOR/BOLA]
+  captura -> evidencias/capturas_fix/v09_idor_dashboard_propio.png
+  captura -> evidencias/capturas_fix/v10_bola_orden_propia.png
+  captura -> evidencias/capturas_fix/v11_bola_orden_nomina_rh.png
+  captura -> evidencias/capturas_fix/v12_bola_orden_inventario_ti.png
+  captura -> evidencias/capturas_fix/v13_idor_perfil_propio.png
+  captura -> evidencias/capturas_fix/v14_idor_perfil_ajeno_rh.png
+  captura -> evidencias/capturas_fix/v15_idor_perfil_ajeno_ti.png
+Diálogos JavaScript capturados: []

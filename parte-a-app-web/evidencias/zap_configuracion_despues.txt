@@ -1,0 +1,7 @@
+OWASP ZAP versión 2.17.0 en modo daemon, API en http://127.0.0.1:8090
+Contexto 'stark-lab' (id 1): incluye http://127.0.0.1:5050.* ; excluye /logout
+Autenticación: sesión de luis.oper (stark_oper) agregada a todas las peticiones (regla Replacer)
+Spider terminado: 13 URLs descubiertas
+Análisis pasivo terminado
+Active Scan terminado (política por defecto)
+65 alertas; reporte en evidencias/zap-reporte-despues.html

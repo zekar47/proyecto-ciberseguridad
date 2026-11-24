@@ -1,0 +1,20 @@
+
+==================== A5. Eventos de seguridad registrados (WARNING) ====================
+
+$ grep WARNING logs/app.log
+2026-11-24 05:49:44,897 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado='ana.ti'
+2026-11-24 05:49:44,962 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado='ana.ti'
+2026-11-24 05:49:45,026 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado='ana.ti'
+2026-11-24 05:49:45,090 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado='ana.ti'
+2026-11-24 05:49:45,154 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado='ana.ti'
+2026-11-24 05:49:45,217 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado='ana.ti'
+2026-11-24 05:49:45,358 WARNING evento=acceso_denegado ip=127.0.0.1 usuario=luis.oper recurso='orden' id='1' propietario='1'
+2026-11-24 05:49:45,360 WARNING evento=acceso_denegado ip=127.0.0.1 usuario=luis.oper recurso='orden' id='3' propietario='3'
+2026-11-24 05:49:45,361 WARNING evento=acceso_denegado ip=127.0.0.1 usuario=luis.oper recurso='orden' id='4' propietario='4'
+2026-11-24 05:49:45,362 WARNING evento=acceso_denegado ip=127.0.0.1 usuario=luis.oper recurso='perfil' id='1' propietario='1'
+2026-11-24 05:49:45,362 WARNING evento=acceso_denegado ip=127.0.0.1 usuario=luis.oper recurso='perfil' id='4' propietario='4'
+2026-11-24 05:49:45,364 WARNING evento=entrada_sospechosa ip=127.0.0.1 usuario=- ruta='/login' campo='username' valor="ana.ti' --"
+2026-11-24 05:49:45,364 WARNING evento=login_fallido ip=127.0.0.1 usuario=- usuario_ingresado="ana.ti' --"
+2026-11-24 05:49:45,365 WARNING evento=entrada_sospechosa ip=127.0.0.1 usuario=sofia.consulta ruta='/buscar' campo='q' valor="' UNION SELECT username,password,rol FROM usuarios --"
+2026-11-24 05:49:45,366 WARNING evento=entrada_sospechosa ip=127.0.0.1 usuario=sofia.consulta ruta='/buscar' campo='q' valor='<script>alert(1)</script>'
+2026-11-24 05:49:45,367 WARNING evento=entrada_sospechosa ip=127.0.0.1 usuario=sofia.consulta ruta='/comentarios' campo='texto' valor='<img src=x onerror=alert(1)>'

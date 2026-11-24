@@ -1,0 +1,33 @@
+
+==================== A5. Generación de eventos controlados ====================
+
+$ python tools/eventos_controlados.py
+1) Fuerza bruta simulada contra ana.ti
+  POST /login ana.ti / 123456                                    -> HTTP 200
+  POST /login ana.ti / password                                  -> HTTP 200
+  POST /login ana.ti / admin                                     -> HTTP 200
+  POST /login ana.ti / Stark2026                                 -> HTTP 200
+  POST /login ana.ti / ana.ti                                    -> HTTP 200
+  POST /login ana.ti / qwerty                                    -> HTTP 200
+2) Solicitudes inválidas
+  GET /admin                                                     -> HTTP 404
+  GET /api/ordenes/999                                           -> HTTP 404
+  GET /perfil/abc                                                -> HTTP 404
+  GET /backup.zip                                                -> HTTP 404
+  POST /comentarios (aviso de 600 caracteres)                    -> HTTP 400
+3) Accesos no autorizados (luis.oper, perfil stark_oper)
+  GET /api/ordenes/1                                             -> HTTP 403
+  GET /api/ordenes/3                                             -> HTTP 403
+  GET /api/ordenes/4                                             -> HTTP 403
+  GET /perfil/1                                                  -> HTTP 403
+  GET /perfil/4                                                  -> HTTP 403
+4) Entradas sospechosas (SQLi / XSS)
+  POST /login usuario=ana.ti' --                                 -> HTTP 200
+  GET /buscar?q=' UNION SELECT username,password,rol FROM usuarios -- -> HTTP 200
+  GET /buscar?q=<script>alert(1)</script>                        -> HTTP 200
+  POST /comentarios <img src=x onerror=alert(1)>                 -> HTTP 302
+5) Actividad legítima de referencia
+  POST /login ana.ti (contraseña correcta)                       -> HTTP 302
+  GET /api/ordenes/4 como ana.ti (stark_ti, autorizado)          -> HTTP 200
+  GET /api/ordenes/2 como luis.oper (su propia orden)            -> HTTP 200
+Eventos generados.

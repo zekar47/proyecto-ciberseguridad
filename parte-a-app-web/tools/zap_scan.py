@@ -7,6 +7,7 @@ Pasos: contexto limitado a la app, exclusión de /logout, sesión autenticada
 Uso: python tools/zap_scan.py   (ZAP debe estar escuchando en 127.0.0.1:8090)
 """
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -17,6 +18,7 @@ ZAP = "http://127.0.0.1:8090"
 APP = "http://127.0.0.1:5050"
 EVID = Path(__file__).resolve().parent.parent / "evidencias"
 EVID.mkdir(exist_ok=True)
+SUF = os.environ.get("ZAP_SUFIJO", "antes")
 log_cfg = []
 
 
@@ -48,9 +50,16 @@ s.post(f"{APP}/login", data={"username": "luis.oper", "password": "Turno1!2026"}
 cookie = s.cookies.get("session")
 if not cookie:
     sys.exit("No se pudo iniciar sesión en la app; ¿está corriendo?")
-api("replacer/action/addRule", description="sesion-luis.oper", enabled="true",
-    matchType="REQ_HEADER", matchRegex="false", matchString="Cookie",
-    replacement=f"session={cookie}", initiators="")
+regla = dict(enabled="true", matchType="REQ_HEADER", matchRegex="false", matchString="Cookie",
+             replacement=f"session={cookie}", initiators="")
+try:  # ZAP guarda las reglas entre corridas: se borra la anterior para no duplicarla
+    api("replacer/action/removeRule", description="sesion-luis.oper")
+except requests.HTTPError:
+    pass
+try:
+    api("replacer/action/addRule", description="sesion-luis.oper", **regla)
+except requests.HTTPError:
+    api("replacer/action/addRule", description=f"sesion-luis.oper-{int(time.time())}", **regla)
 paso("Autenticación: sesión de luis.oper (stark_oper) agregada a todas las peticiones (regla Replacer)")
 
 # 3. Spider
@@ -92,12 +101,12 @@ for (riesgo, nombre), urls_a in sorted(resumen.items(), key=lambda kv: (orden.ge
     lineas.append(f"{riesgo:<13} {nombre}  ({len(urls_a)} URL)")
     for u in sorted(urls_a):
         lineas.append(f"{'':<13}   - {u}")
-(EVID / "zap_alertas.txt").write_text("\n".join(lineas) + "\n", encoding="utf-8")
-(EVID / "zap_alertas.json").write_text(json.dumps(alertas, indent=2, ensure_ascii=False), encoding="utf-8")
+(EVID / f"zap_alertas_{SUF}.txt").write_text("\n".join(lineas) + "\n", encoding="utf-8")
+(EVID / f"zap_alertas_{SUF}.json").write_text(json.dumps(alertas, indent=2, ensure_ascii=False), encoding="utf-8")
 
 html = requests.get(f"{ZAP}/OTHER/core/other/htmlreport/", timeout=120).text
-(EVID / "zap-reporte-antes.html").write_text(html, encoding="utf-8")
-paso(f"{len(alertas)} alertas; reporte en evidencias/zap-reporte-antes.html")
+(EVID / f"zap-reporte-{SUF}.html").write_text(html, encoding="utf-8")
+paso(f"{len(alertas)} alertas; reporte en evidencias/zap-reporte-{SUF}.html")
 
-(EVID / "zap_configuracion.txt").write_text("\n".join(log_cfg) + "\n", encoding="utf-8")
+(EVID / f"zap_configuracion_{SUF}.txt").write_text("\n".join(log_cfg) + "\n", encoding="utf-8")
 print("\n".join(lineas))

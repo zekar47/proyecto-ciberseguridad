@@ -1,0 +1,21 @@
+Medium        Absence of Anti-CSRF Tokens  (1 URL)
+                - http://127.0.0.1:5050/comentarios
+Low           Server Leaks Version Information via "Server" HTTP Response Header Field  (12 URL)
+                - http://127.0.0.1:5050
+                - http://127.0.0.1:5050/
+                - http://127.0.0.1:5050/api/ordenes/2
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/dashboard
+                - http://127.0.0.1:5050/perfil/2
+                - http://127.0.0.1:5050/robots.txt
+                - http://127.0.0.1:5050/salud
+                - http://127.0.0.1:5050/sitemap.xml
+                - http://127.0.0.1:5050/static
+                - http://127.0.0.1:5050/static/estilos.css
+Informational User Agent Fuzzer  (3 URL)
+                - http://127.0.0.1:5050
+                - http://127.0.0.1:5050/
+                - http://127.0.0.1:5050/comentarios
+Informational User Controllable HTML Element Attribute (Potential XSS)  (1 URL)
+                - http://127.0.0.1:5050/buscar

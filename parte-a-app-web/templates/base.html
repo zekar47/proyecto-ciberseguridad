@@ -3,17 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>{% block title %}Stark Manufactura · Portal interno{% endblock %}</title>
-<style>
-  body{font-family:system-ui,sans-serif;margin:0;background:#f3f4f6;color:#1f2937}
-  header{background:#1f2937;color:#fff;padding:12px 24px;display:flex;gap:18px;align-items:center}
-  header a{color:#e5e7eb;text-decoration:none} header strong{margin-right:auto}
-  main{max-width:880px;margin:24px auto;background:#fff;padding:24px;border-radius:8px}
-  .aviso{background:#fef3c7;border:1px solid #f59e0b;padding:8px 12px;border-radius:6px;font-size:.9em}
-  .error{background:#fee2e2;border:1px solid #ef4444;padding:8px 12px;border-radius:6px}
-  table{border-collapse:collapse;width:100%} td,th{border-bottom:1px solid #e5e7eb;padding:6px;text-align:left}
-  input,textarea{padding:6px;width:100%;box-sizing:border-box;margin:4px 0 10px} button{padding:8px 16px}
-  .comentario{border-bottom:1px solid #e5e7eb;padding:8px 0}
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
 </head>
 <body>
 <header>
@@ -27,7 +17,7 @@
   {% endif %}
 </header>
 <main>
-  <p class="aviso">Aplicación de laboratorio intencionalmente vulnerable. Datos ficticios. Uso académico.</p>
+  <p class="aviso">Aplicación de laboratorio (versión corregida). Datos ficticios. Uso académico.</p>
   {% block content %}{% endblock %}
 </main>
 </body>

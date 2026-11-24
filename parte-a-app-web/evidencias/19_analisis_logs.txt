@@ -1,0 +1,30 @@
+
+==================== A5. Análisis de registros ====================
+
+$ python tools/analizar_logs.py
+Archivo analizado: app.log  (25 peticiones, 19 eventos de seguridad)
+
+Eventos por tipo
+  login_fallido          7
+  acceso_denegado        5
+  entrada_sospechosa     4
+  login_exitoso          3
+
+Respuestas HTTP por código
+  200                   11
+  302                    4
+  400                    1
+  403                    5
+  404                    4
+
+Alertas
+  [ALTA] Posible fuerza bruta: 7 logins fallidos en 60 s desde 127.0.0.1 (cuentas: ana.ti, ana.ti' --)
+  [ALTA] Posible enumeración de recursos (IDOR/BOLA): luis.oper tuvo 5 accesos denegados (orden/1, orden/3, orden/4, perfil/1, perfil/4)
+  [MEDIA] Intentos de inyección (SQLi/XSS): 4 entradas sospechosas (-: 1, sofia.consulta: 3)
+  [BAJA] Solicitudes inválidas: 5 (/admin, /api/ordenes/999, /perfil/abc, /backup.zip, /comentarios)
+
+Detalle de entradas sospechosas
+  -               /login        username  ana.ti' --
+  sofia.consulta  /buscar       q         ' UNION SELECT username,password,rol FROM usuarios --
+  sofia.consulta  /buscar       q         <script>alert(1)</script>
+  sofia.consulta  /comentarios  texto     <img src=x onerror=alert(1)>

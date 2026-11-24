@@ -1,0 +1,52 @@
+
+==================== A4. Repetición de las pruebas manuales con curl ====================
+
+# SQLi: evasión de autenticación (usuario = ana.ti' --)
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -w 'HTTP %{http_code} %{redirect_url}\n' --data-urlencode "username=ana.ti' --" --data-urlencode 'password=x' http://127.0.0.1:5050/login
+HTTP 200 
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -d 'username=sofia.consulta&password=Consulta*26' http://127.0.0.1:5050/login
+
+# SQLi: UNION en /buscar
+
+$ curl -s -b /tmp/stark_j.txt -G --data-urlencode "q=zzz' UNION SELECT username, password, rol FROM usuarios --" http://127.0.0.1:5050/buscar | grep -c 'TI#Stark2026'
+0
+
+# XSS reflejado: el payload ahora aparece escapado
+
+$ curl -s -b /tmp/stark_j.txt -G --data-urlencode "q=<script>alert('XSS-Stark')</script>" http://127.0.0.1:5050/buscar | grep -n 'Resultados para'
+30:  <p>Resultados para: <b>&lt;script&gt;alert(&#39;XSS-Stark&#39;)&lt;/script&gt;</b></p>
+
+# Cabeceras de seguridad (CSP)
+
+$ curl -s -b /tmp/stark_j.txt -D - -o /dev/null http://127.0.0.1:5050/buscar | grep -iE 'content-security|x-content-type|x-frame|'
+grep: empty (sub)expression
+
+# IDOR/BOLA: luis.oper (id 2) pide recursos ajenos
+
+$ curl -s -c /tmp/stark_j.txt -D - -o /dev/null -d 'username=luis.oper&password=Turno1!2026' http://127.0.0.1:5050/login | grep -i set-cookie
+Set-Cookie: session=.eJyrVsrLz00qSlWyUvIpzSxW8I0pNTBItcxLSa1S0lEqys8BShSXJBZlx-cXpBYBhUqLU4viM1OUrIwg7LzEXJDmHKBmPbCSWgCIWBvz.awV5oA.eSGxXRvB50ja35vLpdMFpmKNJtI; HttpOnly; Path=/; SameSite=Lax
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/2
+{"clasificacion":"Interno","contenido":"Lote de 5,000 bujes BP-15, m\u00e1quina CNC-03, entrega JIT viernes.","id":2,"titulo":"OT-1002 Programa CNC turno 1","usuario_id":2}
+  [HTTP 200]
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/4
+{"error":"acceso denegado"}
+  [HTTP 403]
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/1
+{"error":"acceso denegado"}
+  [HTTP 403]
+
+$ curl -s -b /tmp/stark_j.txt -o /dev/null -w 'GET /perfil/4 -> HTTP %{http_code}\n' http://127.0.0.1:5050/perfil/4
+GET /perfil/4 -> HTTP 403
+
+# Acceso legítimo de administración: ana.ti (stark_ti) sí puede ver la orden 4
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -d 'username=ana.ti&password=TI%23Stark2026' http://127.0.0.1:5050/login
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/4
+{"clasificacion":"Confidencial","contenido":"Total de n\u00f3mina: 3.1 M MXN. RFC y NSS de empleados en expediente RH (datos ficticios).","id":4,"titulo":"OT-1004 N\u00f3mina noviembre","usuario_id":4}
+  [HTTP 200]
