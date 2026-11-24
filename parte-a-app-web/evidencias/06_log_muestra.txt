@@ -1,0 +1,15 @@
+2026-11-24 05:08:38,917 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/dashboard estado=200
+2026-11-24 05:08:38,917 INFO 127.0.0.1 - - [24/Nov/2026 05:08:38] "GET /dashboard HTTP/1.1" 200 -
+2026-11-24 05:08:38,984 INFO consulta_busqueda=SELECT nombre, categoria, precio FROM productos WHERE nombre LIKE '%buje%'
+2026-11-24 05:08:38,985 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/buscar?q=buje estado=200
+2026-11-24 05:08:38,985 INFO 127.0.0.1 - - [24/Nov/2026 05:08:38] "GET /buscar?q=buje HTTP/1.1" 200 -
+2026-11-24 05:08:39,036 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/comentarios estado=200
+2026-11-24 05:08:39,036 INFO 127.0.0.1 - - [24/Nov/2026 05:08:39] "GET /comentarios HTTP/1.1" 200 -
+2026-11-24 05:08:39,108 INFO ip=127.0.0.1 usuario=luis.oper metodo=POST ruta=/comentarios estado=302
+2026-11-24 05:08:39,108 INFO 127.0.0.1 - - [24/Nov/2026 05:08:39] "[32mPOST /comentarios HTTP/1.1[0m" 302 -
+2026-11-24 05:08:39,110 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/comentarios estado=200
+2026-11-24 05:08:39,110 INFO 127.0.0.1 - - [24/Nov/2026 05:08:39] "GET /comentarios HTTP/1.1" 200 -
+2026-11-24 05:08:39,152 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/perfil/2 estado=200
+2026-11-24 05:08:39,152 INFO 127.0.0.1 - - [24/Nov/2026 05:08:39] "GET /perfil/2 HTTP/1.1" 200 -
+2026-11-24 05:08:39,200 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/api/ordenes/2 estado=200
+2026-11-24 05:08:39,201 INFO 127.0.0.1 - - [24/Nov/2026 05:08:39] "GET /api/ordenes/2 HTTP/1.1" 200 -

@@ -1,0 +1,71 @@
+[ZAP] OWASP ZAP versión 2.17.0 en modo daemon, API en http://127.0.0.1:8090
+[ZAP] Contexto 'stark-lab' (id 1): incluye http://127.0.0.1:5050.* ; excluye /logout
+[ZAP] Autenticación: sesión de luis.oper (stark_oper) agregada a todas las peticiones (regla Replacer)
+[ZAP] Spider terminado: 16 URLs descubiertas
+[ZAP] Análisis pasivo terminado
+[ZAP] Active Scan 0%
+[ZAP] Active Scan 100%
+[ZAP] Active Scan terminado (política por defecto)
+[ZAP] 108 alertas; reporte en evidencias/zap-reporte-antes.html
+High          Cross Site Scripting (Persistent)  (1 URL)
+                - http://127.0.0.1:5050/comentarios
+High          Cross Site Scripting (Reflected)  (2 URL)
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+High          SQL Injection  (1 URL)
+                - http://127.0.0.1:5050/login
+Medium        Absence of Anti-CSRF Tokens  (2 URL)
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/login
+Medium        Content Security Policy (CSP) Header Not Set  (10 URL)
+                - http://127.0.0.1:5050/api
+                - http://127.0.0.1:5050/api/ordenes
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/dashboard
+                - http://127.0.0.1:5050/login
+                - http://127.0.0.1:5050/perfil
+                - http://127.0.0.1:5050/perfil/2
+                - http://127.0.0.1:5050/robots.txt
+                - http://127.0.0.1:5050/sitemap.xml
+Medium        Missing Anti-clickjacking Header  (5 URL)
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/dashboard
+                - http://127.0.0.1:5050/login
+                - http://127.0.0.1:5050/perfil/2
+Low           Cookie without SameSite Attribute  (1 URL)
+                - http://127.0.0.1:5050/login
+Low           Server Leaks Version Information via "Server" HTTP Response Header Field  (14 URL)
+                - http://127.0.0.1:5050
+                - http://127.0.0.1:5050/
+                - http://127.0.0.1:5050/api
+                - http://127.0.0.1:5050/api/ordenes
+                - http://127.0.0.1:5050/api/ordenes/2
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/dashboard
+                - http://127.0.0.1:5050/login
+                - http://127.0.0.1:5050/perfil
+                - http://127.0.0.1:5050/perfil/2
+                - http://127.0.0.1:5050/robots.txt
+                - http://127.0.0.1:5050/salud
+                - http://127.0.0.1:5050/sitemap.xml
+Low           X-Content-Type-Options Header Missing  (7 URL)
+                - http://127.0.0.1:5050/api/ordenes/2
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/dashboard
+                - http://127.0.0.1:5050/login
+                - http://127.0.0.1:5050/perfil/2
+                - http://127.0.0.1:5050/salud
+Informational Authentication Request Identified  (1 URL)
+                - http://127.0.0.1:5050/login
+Informational Session Management Response Identified  (1 URL)
+                - http://127.0.0.1:5050/login
+Informational User Agent Fuzzer  (3 URL)
+                - http://127.0.0.1:5050
+                - http://127.0.0.1:5050/
+                - http://127.0.0.1:5050/comentarios
+Informational User Controllable HTML Element Attribute (Potential XSS)  (1 URL)
+                - http://127.0.0.1:5050/buscar

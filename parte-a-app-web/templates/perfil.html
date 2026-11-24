@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Perfil de empleado #{{ u.id }}</h2>
+<table>
+  <tr><th>Usuario</th><td>{{ u.username }}</td></tr>
+  <tr><th>Nombre</th><td>{{ u.nombre }}</td></tr>
+  <tr><th>Puesto</th><td>{{ u.puesto }}</td></tr>
+  <tr><th>Correo</th><td>{{ u.correo }}</td></tr>
+  <tr><th>Teléfono</th><td>{{ u.telefono }}</td></tr>
+  <tr><th>Perfil</th><td>{{ u.rol }}</td></tr>
+</table>
+{% endblock %}

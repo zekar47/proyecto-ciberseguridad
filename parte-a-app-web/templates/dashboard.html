@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Bienvenido(a), {{ session.nombre }}</h2>
+<p>Perfil: <code>{{ session.rol }}</code></p>
+<h3>Mis órdenes de trabajo</h3>
+<table>
+  <tr><th>ID</th><th>Título</th><th>Clasificación</th><th></th></tr>
+  {% for r in reportes %}
+  <tr><td>{{ r.id }}</td><td>{{ r.titulo }}</td><td>{{ r.clasificacion }}</td>
+      <td><a href="/api/ordenes/{{ r.id }}">Ver (API)</a></td></tr>
+  {% else %}
+  <tr><td colspan="4">Sin órdenes asignadas.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

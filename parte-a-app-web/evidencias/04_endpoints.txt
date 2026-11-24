@@ -1,0 +1,47 @@
+
+==================== 5. Verificación de servicios y endpoints ====================
+
+$ lsof -nP -iTCP:5050 -sTCP:LISTEN
+COMMAND  PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+Python  7466 Areli    4u  IPv4 0xa99dfe4324e77672      0t0  TCP 127.0.0.1:5050 (LISTEN)
+
+$ curl -s http://127.0.0.1:5050/salud; echo
+{"estado":"ok","servicio":"stark-portal"}
+
+
+$ curl -s -o /dev/null -w 'GET /login -> HTTP %{http_code}\n' http://127.0.0.1:5050/login
+GET /login -> HTTP 200
+
+$ curl -s -o /dev/null -w 'GET /dashboard (sin sesión) -> HTTP %{http_code} %{redirect_url}\n' http://127.0.0.1:5050/dashboard
+GET /dashboard (sin sesión) -> HTTP 302 http://127.0.0.1:5050/login
+
+$ curl -s -o /dev/null -w 'GET /buscar (sin sesión) -> HTTP %{http_code} %{redirect_url}\n' http://127.0.0.1:5050/buscar
+GET /buscar (sin sesión) -> HTTP 302 http://127.0.0.1:5050/login
+
+$ curl -s -o /dev/null -w 'GET /comentarios (sin sesión) -> HTTP %{http_code} %{redirect_url}\n' http://127.0.0.1:5050/comentarios
+GET /comentarios (sin sesión) -> HTTP 302 http://127.0.0.1:5050/login
+
+$ curl -s -o /dev/null -w 'GET /perfil/2 (sin sesión) -> HTTP %{http_code} %{redirect_url}\n' http://127.0.0.1:5050/perfil/2
+GET /perfil/2 (sin sesión) -> HTTP 302 http://127.0.0.1:5050/login
+
+$ curl -s -o /dev/null -w 'GET /api/ordenes/2 (sin sesión) -> HTTP %{http_code} %{redirect_url}\n' http://127.0.0.1:5050/api/ordenes/2
+GET /api/ordenes/2 (sin sesión) -> HTTP 302 http://127.0.0.1:5050/login
+
+$ curl -s -c /tmp/stark_cookies.txt -o /dev/null -w 'POST /login (luis.oper) -> HTTP %{http_code} %{redirect_url}\n' -d 'username=luis.oper&password=Turno1!2026' http://127.0.0.1:5050/login
+POST /login (luis.oper) -> HTTP 302 http://127.0.0.1:5050/dashboard
+
+$ curl -s -b /tmp/stark_cookies.txt -o /dev/null -w 'GET /dashboard (con sesión) -> HTTP %{http_code}\n' 'http://127.0.0.1:5050/dashboard'
+GET /dashboard (con sesión) -> HTTP 200
+
+$ curl -s -b /tmp/stark_cookies.txt -o /dev/null -w 'GET /buscar?q=buje (con sesión) -> HTTP %{http_code}\n' 'http://127.0.0.1:5050/buscar?q=buje'
+GET /buscar?q=buje (con sesión) -> HTTP 200
+
+$ curl -s -b /tmp/stark_cookies.txt -o /dev/null -w 'GET /comentarios (con sesión) -> HTTP %{http_code}\n' 'http://127.0.0.1:5050/comentarios'
+GET /comentarios (con sesión) -> HTTP 200
+
+$ curl -s -b /tmp/stark_cookies.txt -o /dev/null -w 'GET /perfil/2 (con sesión) -> HTTP %{http_code}\n' 'http://127.0.0.1:5050/perfil/2'
+GET /perfil/2 (con sesión) -> HTTP 200
+
+$ curl -s -b /tmp/stark_cookies.txt http://127.0.0.1:5050/api/ordenes/2; echo
+{"clasificacion":"Interno","contenido":"Lote de 5,000 bujes BP-15, m\u00e1quina CNC-03, entrega JIT viernes.","id":2,"titulo":"OT-1002 Programa CNC turno 1","usuario_id":2}
+
