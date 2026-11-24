@@ -1,0 +1,30 @@
+[ZAP] OWASP ZAP versión 2.17.0 en modo daemon, API en http://127.0.0.1:8090
+[ZAP] Contexto 'stark-lab' (id 1): incluye http://127.0.0.1:5050.* ; excluye /logout
+[ZAP] Autenticación: sesión de luis.oper (stark_oper) agregada a todas las peticiones (regla Replacer)
+[ZAP] Spider terminado: 13 URLs descubiertas
+[ZAP] Análisis pasivo terminado
+[ZAP] Active Scan 0%
+[ZAP] Active Scan 100%
+[ZAP] Active Scan terminado (política por defecto)
+[ZAP] 65 alertas; reporte en evidencias/zap-reporte-despues.html
+Medium        Absence of Anti-CSRF Tokens  (1 URL)
+                - http://127.0.0.1:5050/comentarios
+Low           Server Leaks Version Information via "Server" HTTP Response Header Field  (12 URL)
+                - http://127.0.0.1:5050
+                - http://127.0.0.1:5050/
+                - http://127.0.0.1:5050/api/ordenes/2
+                - http://127.0.0.1:5050/buscar
+                - http://127.0.0.1:5050/comentarios
+                - http://127.0.0.1:5050/dashboard
+                - http://127.0.0.1:5050/perfil/2
+                - http://127.0.0.1:5050/robots.txt
+                - http://127.0.0.1:5050/salud
+                - http://127.0.0.1:5050/sitemap.xml
+                - http://127.0.0.1:5050/static
+                - http://127.0.0.1:5050/static/estilos.css
+Informational User Agent Fuzzer  (3 URL)
+                - http://127.0.0.1:5050
+                - http://127.0.0.1:5050/
+                - http://127.0.0.1:5050/comentarios
+Informational User Controllable HTML Element Attribute (Potential XSS)  (1 URL)
+                - http://127.0.0.1:5050/buscar

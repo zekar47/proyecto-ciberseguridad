@@ -2,13 +2,13 @@
 {% block content %}
 <h2>Catálogo de productos</h2>
 <form method="get" action="{{ url_for('buscar') }}">
-  <input name="q" value="{{ q }}" placeholder="Buscar producto...">
+  <input name="q" value="{{ q }}" maxlength="100" placeholder="Buscar producto...">
   <button type="submit">Buscar</button>
 </form>
 {% if error %}<p class="error">{{ error }}</p>{% endif %}
 {% if q %}
-  {# VULN-2: |safe desactiva el escapado automático de Jinja2 #}
-  <p>Resultados para: <b>{{ q|safe }}</b></p>
+  {# FIX-2: sin |safe, Jinja2 escapa el texto (< se convierte en &lt;) #}
+  <p>Resultados para: <b>{{ q }}</b></p>
   <table>
     <tr><th>Producto</th><th>Categoría</th><th>Precio</th></tr>
     {% for r in resultados %}

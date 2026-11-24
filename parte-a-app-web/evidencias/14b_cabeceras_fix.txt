@@ -1,0 +1,10 @@
+
+==================== A4. Cabeceras de seguridad (versión corregida) ====================
+
+$ curl -s -c /tmp/stark_j.txt -o /dev/null -d 'username=sofia.consulta&password=Consulta*26' http://127.0.0.1:5050/login
+
+$ curl -s -b /tmp/stark_j.txt -D - -o /dev/null http://127.0.0.1:5050/buscar | grep -iE 'content-security|x-content-type|x-frame|referrer'
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: same-origin

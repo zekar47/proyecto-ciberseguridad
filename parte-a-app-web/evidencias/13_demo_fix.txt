@@ -1,0 +1,70 @@
+
+==================== A4. Versión corregida en ejecución ====================
+[+] Stark Portal (versión corregida) escuchando en http://127.0.0.1:5050
+ * Serving Flask app 'app'
+ * Debug mode: off
+
+$ grep -n 'FIX-' app.py templates/*.html | head -20
+app.py:7:  [FIX-1] SQL Injection ........ consultas parametrizadas + contraseñas con hash
+app.py:8:  [FIX-2] Cross-Site Scripting . escapado automático de Jinja2 (sin |safe) + CSP
+app.py:9:  [FIX-3] IDOR / BOLA .......... validación de autorización sobre cada recurso
+app.py:13:Cada corrección está marcada en el código con "# FIX-x". Datos ficticios.
+app.py:33:# FIX-2: la cookie de sesión no es accesible desde JavaScript y no se envía en peticiones de otros sitios
+app.py:66:    """Solo DETECTA y registra patrones típicos de SQLi/XSS; la protección real son FIX-1 y FIX-2."""
+app.py:73:    # FIX-2: cabeceras de seguridad. La CSP solo permite scripts y estilos del propio sitio,
+app.py:124:            password_hash TEXT NOT NULL,          -- FIX-1: ya no se guarda en texto plano
+app.py:176:    """FIX-3: el recurso es del usuario en sesión, o el usuario es administrador de TI."""
+app.py:201:        # FIX-1: consulta parametrizada. El valor viaja aparte del texto SQL, así que
+app.py:242:        # FIX-1: parámetro en lugar de concatenación; el comodín % se agrega al valor, no al SQL.
+app.py:247:    # FIX-2: la plantilla ya no usa |safe; Jinja2 escapa q automáticamente.
+app.py:266:    # FIX-2: el texto se muestra escapado (sin |safe); un <script> guardado aparece como texto.
+app.py:273:    # FIX-3: solo el propio usuario o un administrador de TI pueden ver el perfil.
+app.py:292:    # FIX-3: se responde 404 si no existe y 403 si existe pero no es del usuario.
+templates/buscar.html:10:  {# FIX-2: sin |safe, Jinja2 escapa el texto (< se convierte en &lt;) #}
+templates/comentarios.html:12:    {# FIX-2: el texto almacenado se muestra escapado #}
+
+==================== A4. Repetición de las pruebas automatizadas ====================
+
+$ python exploits/demo_vulns.py
+
+======================================================================
+0. Verificación del servicio
+======================================================================
+GET /salud -> 200 {"estado":"ok","servicio":"stark-portal"}
+
+======================================================================
+1. SQL Injection
+======================================================================
+[PROTEGIDO] SQLi en /login (evasión de autenticación)
+    usuario="ana.ti' --" contraseña='cualquier-cosa' -> acceso denegado
+[PROTEGIDO] SQLi en /buscar (UNION: extracción de usuarios y contraseñas)
+    q="zzz' UNION SELECT username, password, rol FROM usuarios --" -> no se filtraron datos
+[PROTEGIDO] Mensaje de error SQL visible en /buscar
+    q="'" -> sin detalles del error
+
+======================================================================
+2. Cross-Site Scripting (XSS)
+======================================================================
+[PROTEGIDO] XSS reflejado en /buscar?q=
+    el payload aparece escapado (&lt;script&gt;)
+[PROTEGIDO] XSS almacenado en /comentarios
+    publicado por sofia.consulta y visto por luis.oper -> se muestra como texto
+
+======================================================================
+3. Control de acceso roto (IDOR / BOLA)
+======================================================================
+[PROTEGIDO] IDOR en /perfil/<id>
+    luis.oper (id 2) pide /perfil/4 -> bloqueado (HTTP 403)
+[PROTEGIDO] BOLA en /api/ordenes/<id>
+    luis.oper pide /api/ordenes/4 (pertenece a RH) -> bloqueado (HTTP 403)
+
+======================================================================
+Resumen
+======================================================================
+  PROTEGIDO   SQLi en /login (evasión de autenticación)
+  PROTEGIDO   SQLi en /buscar (UNION: extracción de usuarios y contraseñas)
+  PROTEGIDO   Mensaje de error SQL visible en /buscar
+  PROTEGIDO   XSS reflejado en /buscar?q=
+  PROTEGIDO   XSS almacenado en /comentarios
+  PROTEGIDO   IDOR en /perfil/<id>
+  PROTEGIDO   BOLA en /api/ordenes/<id>

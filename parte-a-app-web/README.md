@@ -1,78 +1,71 @@
-# Stark Manufactura · Portal interno (app vulnerable de laboratorio)
+# Stark Manufactura · Portal interno (Parte A)
 
-Aplicación web en **Python + Flask + SQLite** hecha **a propósito con vulnerabilidades** para la Parte A del Proyecto Final de Ciberseguridad (Tecmilenio).
+Aplicación web de laboratorio en **Python + Flask + SQLite** para la Parte A del Proyecto Final de Ciberseguridad (Tecmilenio). Todos los datos son ficticios. Solo se ejecuta en `127.0.0.1`.
 
-> ⚠️ Sólo para laboratorio local. No la despliegues en internet ni en una red compartida. Todos los datos (empleados, correos, órdenes, contraseñas) son ficticios.
+## Versiones en el repositorio
 
-## Vulnerabilidades incluidas
+| Tag / rama | Contenido |
+|------------|-----------|
+| `v1-vulnerable` (commit inicial en `main`) | App intencionalmente vulnerable + evidencias de las Actividades 1 y 2 |
+| `fix/vulnerabilidades` → PR → `v2-segura` | App corregida + evidencias de las Actividades 4 y 5 |
 
-| ID | Vulnerabilidad | Endpoint(s) | Dónde está en el código |
-|----|----------------|-------------|-------------------------|
-| VULN-1 | SQL Injection | `POST /login`, `GET /buscar?q=` | `app.py` → `login()`, `buscar()` |
-| VULN-2 | XSS reflejado y almacenado | `GET /buscar?q=`, `POST /comentarios` | `templates/buscar.html`, `templates/comentarios.html` (filtro `|safe`) |
-| VULN-3 | IDOR / BOLA | `GET /perfil/<id>`, `GET /api/ordenes/<id>` | `app.py` → `perfil()`, `api_reporte()` |
+```bash
+git checkout v1-vulnerable   # versión vulnerable
+git checkout v2-segura       # versión corregida
+git diff v1-vulnerable v2-segura -- parte-a-app-web/app.py parte-a-app-web/templates
+```
 
-Busca `VULN-` en el código para encontrar cada punto.
+## Vulnerabilidades y correcciones
 
-## Requisitos
+| ID | Vulnerabilidad (v1) | Endpoint(s) | Corrección (v2) |
+|----|---------------------|-------------|-----------------|
+| 1 | SQL Injection | `POST /login`, `GET /buscar?q=` | Consultas parametrizadas (`?`), contraseñas con hash (`werkzeug.security`), mensajes de error genéricos |
+| 2 | XSS reflejado y almacenado | `GET /buscar?q=`, `POST /comentarios` | Se quitó `|safe` (escapado automático de Jinja2), Content-Security-Policy estricta, CSS en archivo externo, longitud máxima de entradas |
+| 3 | IDOR / BOLA | `GET /perfil/<id>`, `GET /api/ordenes/<id>` | Validación de autorización: solo el propietario o el perfil `stark_ti`; si no, `403` y evento `acceso_denegado` |
 
-- Python 3.10 o superior
-- (Opcional) OWASP ZAP para el análisis automatizado
+En `app.py` cada corrección está marcada con `FIX-1`, `FIX-2` o `FIX-3`.
 
 ## Ejecución
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate          # Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python app.py
+python app.py                      # http://127.0.0.1:5050
 ```
 
-Abre http://127.0.0.1:5050. (Se usa el puerto 5050 porque en macOS el 5000 lo ocupa el Receptor AirPlay.) La base de datos `stark.db` se **reinicia en cada arranque**.
+Se usa el puerto 5050 porque en macOS el 5000 lo ocupa el Receptor AirPlay.
 
-Para analizarla desde la VM de Kali por la red host-only del avance:
-
-```bash
-STARK_HOST=192.168.56.1 python app.py
-```
-
-## Cuentas de prueba (ficticias)
+## Cuentas de prueba (ficticias, solo laboratorio)
 
 | Usuario | Contraseña | Perfil |
 |---------|-----------|--------|
-| ana.ti | TI#Stark2026 | stark_ti |
+| ana.ti | TI#Stark2026 | stark_ti (administración) |
 | luis.oper | Turno1!2026 | stark_oper |
 | sofia.consulta | Consulta*26 | stark_consulta |
 | mgarza.rh | RH-Garza-26 | stark_consulta |
 
-## Endpoints
+## Pruebas y evidencias
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| GET | `/salud` | Estado del servicio (sin sesión) |
-| GET/POST | `/login` | Inicio de sesión |
-| GET | `/dashboard` | Órdenes de trabajo del usuario |
-| GET | `/buscar?q=` | Catálogo de productos |
-| GET/POST | `/comentarios` | Tablero de avisos |
-| GET | `/perfil/<id>` | Perfil de empleado |
-| GET | `/api/ordenes/<id>` | API JSON de órdenes de trabajo |
-| GET | `/logout` | Cerrar sesión |
+| Script | Qué hace |
+|--------|----------|
+| `exploits/demo_vulns.py` | Ejecuta las 7 pruebas de ataque e imprime `VULNERABLE` o `PROTEGIDO` |
+| `evidencias.sh` | Actividad 1: entorno, ejecución, endpoints y capturas |
+| `evidencias_zap.sh` | Actividad 1: instala ZAP multiplataforma y hace el escaneo autenticado |
+| `evidencias_vulns.sh` | Actividad 2: demostración de las vulnerabilidades (v1) |
+| `evidencias_fix.sh` | Actividades 4 y 5: repite las pruebas, ZAP "después", eventos controlados y análisis de registros |
+| `tools/eventos_controlados.py` | Genera eventos de seguridad controlados (fuerza bruta, 403, 404, inyecciones) |
+| `tools/analizar_logs.py` | Resume `logs/app.log` y emite alertas (fuerza bruta, enumeración, inyección) |
 
-## Demostración automática de las vulnerabilidades
+Las salidas y capturas están en `evidencias/` (`capturas/`, `capturas_vulns/` = antes, `capturas_fix/` = después).
 
-Con la app corriendo, en otra terminal:
+## Registros de seguridad
 
-```bash
-python exploits/demo_vulns.py
-```
+`logs/app.log` registra cada petición (IP, usuario, método, ruta, estado) y eventos en formato `clave=valor`:
+`login_exitoso`, `login_fallido`, `acceso_denegado`, `entrada_sospechosa`.
 
-Cada prueba imprime `[VULNERABLE]` o `[PROTEGIDO]`. Después de aplicar las correcciones, todas deben salir `[PROTEGIDO]` (sirve como evidencia para la Actividad 4).
+## Limitaciones conocidas
 
-## Registros
-
-Cada petición queda en `logs/app.log` (IP, usuario, método, ruta, estado), al igual que los intentos de inicio de sesión fallidos y los errores de SQL. Sirve como base para la Actividad 5.
-
-## Documentación
-
-- [`docs/actividad-1-2.md`](docs/actividad-1-2.md): preparación del entorno, configuración de OWASP ZAP e identificación de las vulnerabilidades.
-- `evidencias/`: salidas y capturas de pantalla.
+- No hay tokens anti-CSRF (ZAP lo reporta como riesgo medio); `SameSite=Lax` lo mitiga parcialmente.
+- El servidor de desarrollo de Flask no es apto para producción.
+- La detección de entradas sospechosas es por patrones y puede dar falsos positivos (por ejemplo, un apóstrofe en un nombre).

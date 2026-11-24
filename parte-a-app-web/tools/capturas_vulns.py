@@ -2,19 +2,20 @@
 Capturas de la Actividad 2: demostración de SQL Injection, XSS e IDOR/BOLA.
 Uso (con la app corriendo):  python tools/capturas_vulns.py
 """
+import os
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
 BASE = "http://127.0.0.1:5050"
-OUT = Path(__file__).resolve().parent.parent / "evidencias" / "capturas_vulns"
+OUT = Path(__file__).resolve().parent.parent / "evidencias" / os.environ.get("CAPTURAS_DIR", "capturas_vulns")
 OUT.mkdir(parents=True, exist_ok=True)
 dialogos = []
 
 
 def foto(page, nombre, full=False):
     page.screenshot(path=str(OUT / f"{nombre}.png"), full_page=full)
-    print(f"  captura -> evidencias/capturas_vulns/{nombre}.png")
+    print(f"  captura -> evidencias/{OUT.name}/{nombre}.png")
 
 
 def nueva_sesion(browser, user=None, pwd=None):
@@ -99,5 +100,5 @@ with sync_playwright() as p:
     ctx.close()
     b.close()
 
-(OUT.parent / "07_dialogos_xss.txt").write_text("\n".join(dialogos) + "\n", encoding="utf-8")
+(OUT.parent / f"07_dialogos_xss_{OUT.name}.txt").write_text("\n".join(dialogos) + "\n", encoding="utf-8")
 print("Diálogos JavaScript capturados:", dialogos)

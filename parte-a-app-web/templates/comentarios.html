@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Tablero de avisos</h2>
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
 <form method="post" action="{{ url_for('comentarios') }}">
-  <textarea name="texto" rows="3" placeholder="Escribe un aviso para el equipo..."></textarea>
+  <textarea name="texto" rows="3" maxlength="500" placeholder="Escribe un aviso para el equipo..."></textarea>
   <button type="submit">Publicar</button>
 </form>
 {% for c in comentarios %}
   <div class="comentario">
     <small><b>{{ c.autor }}</b> · {{ c.fecha }}</small>
-    {# VULN-2: el texto almacenado se imprime sin escapar #}
-    <div>{{ c.texto|safe }}</div>
+    {# FIX-2: el texto almacenado se muestra escapado #}
+    <div>{{ c.texto }}</div>
   </div>
 {% endfor %}
 {% endblock %}
