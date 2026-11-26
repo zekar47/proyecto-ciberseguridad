@@ -1,0 +1,14 @@
+# Nmap 7.94SVN scan initiated Tue Nov 24 22:58:20 2026 as: nmap -Pn -sS -sV -n -e eth1 -S 192.168.56.102 -p 22,80,139,445,3306 -oN resultados_despues/nmap_sinrol.txt 192.168.56.1
+Nmap scan report for 192.168.56.1
+Host is up (0.000023s latency).
+
+PORT     STATE    SERVICE      VERSION
+22/tcp   filtered ssh
+80/tcp   filtered http
+139/tcp  filtered netbios-ssn
+445/tcp  filtered microsoft-ds
+3306/tcp filtered mysql
+MAC Address: 42:CB:66:FD:77:08 (Unknown)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Nov 24 22:58:22 2026 -- 1 IP address (1 host up) scanned in 1.42 seconds

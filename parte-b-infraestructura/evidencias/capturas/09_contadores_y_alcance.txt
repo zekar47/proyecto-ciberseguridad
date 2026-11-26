@@ -1,0 +1,16 @@
+[srv] $ nft list chain inet stark_fw input | grep -E 'counter packets'
+		ip saddr @cuarentena counter packets 4 bytes 240 log prefix "STARK-FW CUARENTENA: " drop
+		ct state established,related counter packets 59 bytes 6687 accept
+		ct state invalid counter packets 0 bytes 0 log prefix "STARK-FW INVALIDO: " drop
+		ip saddr @administracion tcp dport 22 ct state new counter packets 4 bytes 224 log prefix "STARK-FW SSH-ADMIN: " level info accept
+		ip saddr @usuarios tcp dport { 139, 445 } counter packets 8 bytes 448 accept
+		ip saddr @administracion tcp dport { 139, 445 } counter packets 6 bytes 328 accept
+		ip saddr @administracion icmp type echo-request limit rate 5/second burst 5 packets counter packets 0 bytes 0 accept
+		tcp dport 22 counter packets 15 bytes 836 log prefix "STARK-FW BLOQ-SSH: " drop
+		tcp dport 3306 counter packets 21 bytes 1164 log prefix "STARK-FW BLOQ-DB: " drop
+		limit rate 20/second burst 40 packets counter packets 13 bytes 620 log prefix "STARK-FW BLOQ-DEFAULT: "
+		counter packets 13 bytes 620 drop
+
+[srv] $ curl -s -o /dev/null -w 'Salida a Internet desde el host: HTTP %{http_code}\n' https://pypi.org
+Salida a Internet desde el host: HTTP 200
+

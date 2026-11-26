@@ -1,0 +1,22 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+2026-11-26T21:48:38 srv-stark-01 sshd(pam_google_authenticator)[1989]: Invalid verification code for ana.ti
+2026-11-26T21:48:41 srv-stark-01 sshd[1987]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:49:56 srv-stark-01 sshd(pam_google_authenticator)[2008]: Invalid verification code for ana.ti
+2026-11-26T21:49:58 srv-stark-01 sshd[2006]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:50:44 srv-stark-01 sshd(pam_google_authenticator)[2017]: Accepted google_authenticator for ana.ti
+2026-11-26T21:50:44 srv-stark-01 sshd[2015]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1 port 49738 ssh2
+2026-11-26T21:52:00 srv-stark-01 sshd[2104]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:52:05 srv-stark-01 sshd[2104]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:52:41 srv-stark-01 sshd[2104]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:53:02 srv-stark-01 sshd[2123]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:53:22 srv-stark-01 sshd(pam_google_authenticator)[2126]: Accepted google_authenticator for ana.ti
+2026-11-26T21:53:22 srv-stark-01 sshd[2123]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1 port 49753 ssh2
+2026-11-26T21:54:19 srv-stark-01 sshd(pam_google_authenticator)[2216]: Invalid verification code for ana.ti
+2026-11-26T21:54:21 srv-stark-01 sshd[2214]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:54:34 srv-stark-01 sshd[2214]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:56:17 srv-stark-01 sshd(pam_google_authenticator)[2234]: Accepted google_authenticator for ana.ti
+2026-11-26T21:56:17 srv-stark-01 sshd[2232]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1 port 49760 ssh2
+2026-11-26T21:56:31 srv-stark-01 sshd(pam_google_authenticator)[2318]: Trying to reuse a previously used time-based code. ("/home/ana.ti/.google_authenticator")Retry again in 30 seconds. Warning! This might mean, you are currently subject to a man-in-the-middle attack.
+2026-11-26T21:56:31 srv-stark-01 sshd(pam_google_authenticator)[2318]: Invalid verification code for ana.ti
+2026-11-26T21:56:33 srv-stark-01 sshd[2316]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:56:45 srv-stark-01 sshd[2316]: error: PAM: Authentication failure for ana.ti from 192.168.64.1

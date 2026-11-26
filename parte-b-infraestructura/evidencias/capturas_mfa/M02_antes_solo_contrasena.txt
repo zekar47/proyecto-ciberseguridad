@@ -1,0 +1,3 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+# auth.log del inicio de sesion con MFA desactivada:
+2026-11-26T22:03:37 srv-stark-01 sshd[2993]: Accepted password for ana.ti from 192.168.64.1 port 49835 ssh2

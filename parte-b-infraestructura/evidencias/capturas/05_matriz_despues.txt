@@ -1,0 +1,32 @@
+[kali] $ ./pruebas/pruebas_kali.sh despues
+Interfaz: eth1 | Kali sin rol: 192.168.56.102 | Fecha: 2026-11-24T22:57:40+00:00
+--- Matriz de conectividad (esperados = con firewall activo) ---
+P1   Administracion  192.168.56.130  22     ABIERTO    esperado=ABIERTO    OK
+P2   Usuarios        192.168.56.110  22     BLOQUEADO  esperado=BLOQUEADO  OK
+P3   Usuarios        192.168.56.110  445    ABIERTO    esperado=ABIERTO    OK
+P4   Administracion  192.168.56.130  445    ABIERTO    esperado=ABIERTO    OK
+P5   Usuarios        192.168.56.110  3306   BLOQUEADO  esperado=BLOQUEADO  OK
+P6   Administracion  192.168.56.130  3306   BLOQUEADO  esperado=BLOQUEADO  OK
+P7   Sin-rol         192.168.56.102  22     BLOQUEADO  esperado=BLOQUEADO  OK
+P8   Sin-rol         192.168.56.102  445    BLOQUEADO  esperado=BLOQUEADO  OK
+--- Escaneos Nmap por rol (puertos del hallazgo del avance) ---
+[*] nmap desde usuarios (192.168.56.110)
+22/tcp   filtered ssh
+80/tcp   filtered http
+139/tcp  open     netbios-ssn Samba smbd 4.6.2
+445/tcp  open     netbios-ssn Samba smbd 4.6.2
+3306/tcp filtered mysql
+[*] nmap desde admin (192.168.56.130)
+22/tcp   open     ssh         OpenSSH 9.6p1 Ubuntu 3ubuntu13.20 (Ubuntu Linux; protocol 2.0)
+80/tcp   filtered http
+139/tcp  open     netbios-ssn Samba smbd 4.6.2
+445/tcp  open     netbios-ssn Samba smbd 4.6.2
+3306/tcp filtered mysql
+[*] nmap desde sinrol (192.168.56.102)
+22/tcp   filtered ssh
+80/tcp   filtered http
+139/tcp  filtered netbios-ssn
+445/tcp  filtered microsoft-ds
+3306/tcp filtered mysql
+[+] Resultados guardados en resultados_despues/
+

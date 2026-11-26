@@ -1,0 +1,27 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+[srv] $ sudo ./mfa/ver_registros_ssh.sh
+=== Resumen ===
+Sesiones aceptadas (keyboard-interactive):    7
+Codigos TOTP aceptados:                       6
+Codigos TOTP invalidos:                       5
+Intentos de reutilizar un codigo TOTP:        1
+Fallos de autenticacion (PAM):                17
+Intentos rechazados (Failed):                 0
+
+=== Ultimos eventos relevantes ===
+2026-11-26T21:54:19 sshd(pam_google_authenticator)[2216]: Invalid verification code for ana.ti
+2026-11-26T21:54:21 sshd[2214]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:54:34 sshd[2214]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:56:17 sshd(pam_google_authenticator)[2234]: Accepted google_authenticator for ana.ti
+2026-11-26T21:56:17 sshd[2232]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1
+2026-11-26T21:56:31 sshd(pam_google_authenticator)[2318]: Trying to reuse a previously used time-based code.Retry again in 30 seconds. Warning! This might mean, you are currently subject to a man-in-the-middle attack.
+2026-11-26T21:56:31 sshd(pam_google_authenticator)[2318]: Invalid verification code for ana.ti
+2026-11-26T21:56:33 sshd[2316]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:56:45 sshd[2316]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:57:46 sshd(pam_google_authenticator)[2338]: Accepted google_authenticator for ana.ti
+2026-11-26T21:57:46 sshd[2336]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1
+2026-11-26T21:58:12 sshd(pam_google_authenticator)[2421]: Invalid verification code for ana.ti
+2026-11-26T21:58:14 sshd[2419]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:59:11 sshd[2441]: Accepted keyboard-interactive/pam for luis.oper from 192.168.64.1
+2026-11-26T22:00:33 sshd[2720]: Accepted publickey for labadmin from 192.168.64.1: ED25519 SHA256:4Qx5x3CKYC+2idH99yAKrFhNe4ln7JtxbkMsp9ep5O8
+2026-11-26T22:03:37 sshd[2993]: Accepted password for ana.ti from 192.168.64.1

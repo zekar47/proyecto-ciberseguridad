@@ -1,0 +1,5 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+2026-11-26T21:38:56 srv-stark-01 sshd(pam_google_authenticator)[1766]: Accepted google_authenticator for ana.ti
+2026-11-26T21:38:56 srv-stark-01 sshd[1764]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1 port 49681 ssh2
+2026-11-26T21:43:39 srv-stark-01 sshd(pam_google_authenticator)[1865]: Accepted google_authenticator for ana.ti
+2026-11-26T21:43:39 srv-stark-01 sshd[1863]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1 port 49705 ssh2

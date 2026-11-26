@@ -1,0 +1,5 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+2026-11-26T21:59:11 srv-stark-01 sshd[2441]: Accepted keyboard-interactive/pam for luis.oper from 192.168.64.1 port 49783 ssh2
+2026-11-26T21:59:11 srv-stark-01 sshd[2441]: pam_unix(sshd:session): session opened for user luis.oper(uid=1002) by luis.oper(uid=0)
+2026-11-26T22:00:53 srv-stark-01 sshd[2512]: Disconnected from user luis.oper 192.168.64.1 port 49783
+2026-11-26T22:00:53 srv-stark-01 sshd[2441]: pam_unix(sshd:session): session closed for user luis.oper

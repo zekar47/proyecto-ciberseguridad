@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+# Resultados que generan los scripts al ejecutarse (no versionar corridas locales nuevas)
+pruebas/resultados_*/
+# Nunca subir secretos TOTP, llaves ni respaldos de configuracion
+*.secreto
+*.emergencia
+.google_authenticator
+*.key
+*.pem
+*.bak-*

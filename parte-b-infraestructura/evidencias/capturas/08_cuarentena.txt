@@ -1,0 +1,27 @@
+[kali] $ nc -zv -w 4 -s 192.168.56.110 192.168.56.1 445
+Connection to 192.168.56.1 445 port [tcp/microsoft-ds] succeeded!
+
+[srv] $ ./firewall/cuarentena.sh agregar 192.168.56.110 2h && ./firewall/cuarentena.sh listar
+[+] 192.168.56.110 en cuarentena.
+table inet stark_fw {
+	set cuarentena {
+		type ipv4_addr
+		flags timeout
+		elements = { 192.168.56.110 timeout 2h expires 1h59m59s984ms }
+	}
+}
+
+[kali] $ nc -zv -w 4 -s 192.168.56.110 192.168.56.1 445; echo "[salida $?] equipo de Usuarios aislado del servidor"
+nc: connect to 192.168.56.1 port 445 (tcp) timed out: Operation now in progress
+[salida 1] equipo de Usuarios aislado del servidor
+
+[srv] $ dmesg | grep 'STARK-FW CUARENTENA' | tail -2
+[  846.278341] STARK-FW CUARENTENA: IN=vboxnet0 OUT= MAC=42:cb:66:fd:77:08:06:56:05:0d:7b:97:08:00 SRC=192.168.56.110 DST=192.168.56.1 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=44862 DF PROTO=TCP SPT=46981 DPT=445 WINDOW=64240 RES=0x00 SYN URGP=0 
+[  847.302341] STARK-FW CUARENTENA: IN=vboxnet0 OUT= MAC=42:cb:66:fd:77:08:06:56:05:0d:7b:97:08:00 SRC=192.168.56.110 DST=192.168.56.1 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=44863 DF PROTO=TCP SPT=46981 DPT=445 WINDOW=64240 RES=0x00 SYN URGP=0 
+
+[srv] $ ./firewall/cuarentena.sh quitar 192.168.56.110
+[+] 192.168.56.110 liberado.
+
+[kali] $ nc -zv -w 4 -s 192.168.56.110 192.168.56.1 445
+Connection to 192.168.56.1 445 port [tcp/microsoft-ds] succeeded!
+

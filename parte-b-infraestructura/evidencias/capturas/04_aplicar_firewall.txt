@@ -1,0 +1,38 @@
+[srv] $ ./firewall/aplicar_firewall.sh
+[*] Interfaz del laboratorio: vboxnet0
+[*] Validando sintaxis (nft -c)...
+[*] Aplicando reglas...
+[+] Firewall aplicado. Reglas activas:
+table inet stark_fw {
+	set usuarios {
+		type ipv4_addr
+		elements = { 192.168.56.110 }
+	}
+
+	set administracion {
+		type ipv4_addr
+		elements = { 192.168.56.130 }
+	}
+
+	set cuarentena {
+		type ipv4_addr
+		flags timeout
+	}
+
+	chain input {
+		type filter hook input priority filter; policy drop;
+		iifname != "vboxnet0" accept
+		ip saddr @cuarentena counter packets 0 bytes 0 log prefix "STARK-FW CUARENTENA: " drop
+		ct state established,related counter packets 0 bytes 0 accept
+		ct state invalid counter packets 0 bytes 0 log prefix "STARK-FW INVALIDO: " drop
+		ip saddr @administracion tcp dport 22 ct state new counter packets 0 bytes 0 log prefix "STARK-FW SSH-ADMIN: " level info accept
+		ip saddr @usuarios tcp dport { 139, 445 } counter packets 0 bytes 0 accept
+		ip saddr @administracion tcp dport { 139, 445 } counter packets 0 bytes 0 accept
+		ip saddr @administracion icmp type echo-request limit rate 5/second burst 5 packets counter packets 0 bytes 0 accept
+		tcp dport 22 counter packets 0 bytes 0 log prefix "STARK-FW BLOQ-SSH: " drop
+		tcp dport 3306 counter packets 0 bytes 0 log prefix "STARK-FW BLOQ-DB: " drop
+		limit rate 20/second burst 40 packets counter packets 0 bytes 0 log prefix "STARK-FW BLOQ-DEFAULT: "
+		counter packets 0 bytes 0 drop
+	}
+}
+

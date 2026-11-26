@@ -1,0 +1,9 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+[srv] $ sudo sshd -T | grep -E "^(usepam|passwordauthentication|kbdinteractiveauthentication|authenticationmethods) "   # MFA desactivada
+usepam yes
+passwordauthentication yes
+kbdinteractiveauthentication no
+authenticationmethods any
+[srv] $ sudo grep -H PasswordAuthentication /etc/ssh/sshd_config.d/*.conf
+/etc/ssh/sshd_config.d/50-cloud-init.conf:PasswordAuthentication yes
+/etc/ssh/sshd_config.d/60-cloudimg-settings.conf:PasswordAuthentication no

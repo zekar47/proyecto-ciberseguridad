@@ -1,0 +1,12 @@
+[srv] $ ip -4 -br addr show dev vboxnet0
+vboxnet0@if7     UP             192.168.56.1/24 
+
+[srv] $ ss -ltnp | grep -E ':(22|139|445|3306) ' | awk '{print $1, $4, $6}'
+LISTEN 0.0.0.0:445 users:(("smbd",pid=2304,fd=29))
+LISTEN 0.0.0.0:22 users:(("sshd",pid=2299,fd=3))
+LISTEN 0.0.0.0:139 users:(("smbd",pid=2304,fd=30))
+LISTEN 0.0.0.0:3306 users:(("mariadbd",pid=2440,fd=21))
+
+[srv] $ nft list tables | grep stark_fw || echo 'Sin tabla stark_fw: no hay firewall aplicado'
+Sin tabla stark_fw: no hay firewall aplicado
+

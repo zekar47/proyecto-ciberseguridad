@@ -1,0 +1,10 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+# QR, clave secreta y codigos de emergencia omitidos a proposito.
+[srv] $ ls -l /home/ana.ti/.google_authenticator
+-r-------- 1 ana.ti ana.ti 190 Nov 26 15:58 /home/ana.ti/.google_authenticator
+[srv] opciones guardadas:
+" RESETTING_TIME_SKEW 59857668-2
+" RATE_LIMIT 3 30 1795730255 1795730283
+" WINDOW_SIZE 3
+" DISALLOW_REUSE 59857672
+" TOTP_AUTH
