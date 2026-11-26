@@ -1,0 +1,10 @@
+Interfaz: vkali | Kali sin rol: 192.168.56.102 | Fecha: 2026-11-24T22:51:32+00:00
+--- Matriz de conectividad (esperados = con firewall activo) ---
+P1   Administracion  192.168.56.130  22     ABIERTO    esperado=ABIERTO    OK
+P2   Usuarios        192.168.56.110  22     BLOQUEADO  esperado=BLOQUEADO  OK
+P3   Usuarios        192.168.56.110  445    ABIERTO    esperado=ABIERTO    OK
+P4   Administracion  192.168.56.130  445    ABIERTO    esperado=ABIERTO    OK
+P5   Usuarios        192.168.56.110  3306   BLOQUEADO  esperado=BLOQUEADO  OK
+P6   Administracion  192.168.56.130  3306   BLOQUEADO  esperado=BLOQUEADO  OK
+P7   Sin-rol         192.168.56.102  22     BLOQUEADO  esperado=BLOQUEADO  OK
+P8   Sin-rol         192.168.56.102  445    BLOQUEADO  esperado=BLOQUEADO  OK

@@ -1,0 +1,234 @@
+[
+  {
+    "id": 1,
+    "name": "Lab-Campaña-Actualizacion",
+    "created_date": "2026-11-04T10:32:58.537899295Z",
+    "launch_date": "2026-11-04T10:32:00Z",
+    "send_by_date": "0001-01-01T00:00:00Z",
+    "completed_date": "0001-01-01T00:00:00Z",
+    "template": {
+      "id": 1,
+      "name": "Lab-ActualizacionSoftware",
+      "envelope_sender": "",
+      "subject": "Acción requerida: actualización de seguridad del sistema",
+      "text": "",
+      "html": "\u003cp\u003eEstimado colaborador:\u003c/p\u003e\n\u003cp\u003eSe requiere aplicar una \u003cb\u003eactualización de seguridad\u003c/b\u003e en su equipo de STARK.\nPor favor ingrese al portal para completar el proceso antes de que finalice el día.\u003c/p\u003e\n\u003cp\u003e\u003ca href=\"{{.URL}}\"\u003eAplicar la actualización ahora\u003c/a\u003e\u003c/p\u003e\n\u003cp\u003eDepartamento de TI — STARK (mensaje de laboratorio)\u003c/p\u003e\n{{.Tracker}}",
+      "modified_date": "2026-11-04T10:14:20.942553578Z",
+      "attachments": []
+    },
+    "page": {
+      "id": 1,
+      "name": "Lab-Actualizacion",
+      "html": "\u003chtml\u003e\u003chead\u003e\u003c/head\u003e\u003cbody style=\"font-family:sans-serif;text-align:center;margin-top:60px\"\u003e\n    \u003ch2\u003ePortal de actualización de software — STARK (LABORATORIO)\u003c/h2\u003e\n    \u003cp\u003eInicie sesión para aplicar la actualización.\u003c/p\u003e\n    \u003cform method=\"post\" action=\"\"\u003e\n      \u003cinput type=\"text\" name=\"username\" placeholder=\"Usuario\"/\u003e\u003cbr/\u003e\u003cbr/\u003e\n      \u003cinput type=\"password\" placeholder=\"Contraseña\"/\u003e\u003cbr/\u003e\u003cbr/\u003e\n      \u003cbutton type=\"submit\"\u003eAplicar actualización\u003c/button\u003e\n    \u003c/form\u003e\n    \u003cp style=\"color:gray;font-size:12px\"\u003eEntorno de laboratorio. Datos ficticios.\u003c/p\u003e\n  \n\u003c/body\u003e\u003c/html\u003e",
+      "capture_credentials": true,
+      "capture_passwords": false,
+      "redirect_url": "http://localhost:8025",
+      "modified_date": "2026-11-04T10:13:23.81325864Z"
+    },
+    "status": "In progress",
+    "results": [
+      {
+        "id": "2eDUFkA",
+        "status": "Submitted Data",
+        "ip": "192.168.56.102",
+        "latitude": 0,
+        "longitude": 0,
+        "send_date": "2026-11-04T10:32:58.656674369Z",
+        "reported": false,
+        "modified_date": "2026-11-04T11:00:53.42276492Z",
+        "email": "ana.torres@stark.lab",
+        "first_name": "Ana",
+        "last_name": "Torres",
+        "position": "Administración"
+      },
+      {
+        "id": "dy1JJfA",
+        "status": "Email Sent",
+        "ip": "",
+        "latitude": 0,
+        "longitude": 0,
+        "send_date": "2026-11-04T10:32:58.693583149Z",
+        "reported": false,
+        "modified_date": "2026-11-04T10:32:58.693583149Z",
+        "email": "jorge.diaz@stark.lab",
+        "first_name": "Jorge",
+        "last_name": "Díaz",
+        "position": "Ventas"
+      },
+      {
+        "id": "audxSlB",
+        "status": "Submitted Data",
+        "ip": "192.168.56.102",
+        "latitude": 0,
+        "longitude": 0,
+        "send_date": "2026-11-04T10:32:58.719966365Z",
+        "reported": false,
+        "modified_date": "2026-11-04T10:55:28.629547217Z",
+        "email": "luis.gomez@stark.lab",
+        "first_name": "Luis",
+        "last_name": "Gómez",
+        "position": "Ingeniería"
+      },
+      {
+        "id": "FOw1e2S",
+        "status": "Email Sent",
+        "ip": "",
+        "latitude": 0,
+        "longitude": 0,
+        "send_date": "2026-11-04T10:32:58.748943855Z",
+        "reported": false,
+        "modified_date": "2026-11-04T10:32:58.748943855Z",
+        "email": "maria.ruiz@stark.lab",
+        "first_name": "María",
+        "last_name": "Ruiz",
+        "position": "Compras"
+      },
+      {
+        "id": "qmAFJ7k",
+        "status": "Email Sent",
+        "ip": "",
+        "latitude": 0,
+        "longitude": 0,
+        "send_date": "2026-11-04T10:32:58.789850935Z",
+        "reported": false,
+        "modified_date": "2026-11-04T10:32:58.789850935Z",
+        "email": "sofia.leon@stark.lab",
+        "first_name": "Sofía",
+        "last_name": "León",
+        "position": "RRHH"
+      }
+    ],
+    "timeline": [
+      {
+        "campaign_id": 1,
+        "email": "",
+        "time": "2026-11-04T10:32:58.611111131Z",
+        "message": "Campaign Created",
+        "details": ""
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:32:58.656674369Z",
+        "message": "Email Sent",
+        "details": ""
+      },
+      {
+        "campaign_id": 1,
+        "email": "jorge.diaz@stark.lab",
+        "time": "2026-11-04T10:32:58.693583149Z",
+        "message": "Email Sent",
+        "details": ""
+      },
+      {
+        "campaign_id": 1,
+        "email": "luis.gomez@stark.lab",
+        "time": "2026-11-04T10:32:58.719966365Z",
+        "message": "Email Sent",
+        "details": ""
+      },
+      {
+        "campaign_id": 1,
+        "email": "maria.ruiz@stark.lab",
+        "time": "2026-11-04T10:32:58.748943855Z",
+        "message": "Email Sent",
+        "details": ""
+      },
+      {
+        "campaign_id": 1,
+        "email": "sofia.leon@stark.lab",
+        "time": "2026-11-04T10:32:58.789850935Z",
+        "message": "Email Sent",
+        "details": ""
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:43:59.307190553Z",
+        "message": "Email Opened",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:44:02.50030335Z",
+        "message": "Clicked Link",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:45:21.112055683Z",
+        "message": "Submitted Data",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"],\"username\":[\"ana.torres\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:49:18.868219951Z",
+        "message": "Clicked Link",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "luis.gomez@stark.lab",
+        "time": "2026-11-04T10:55:16.884027649Z",
+        "message": "Email Opened",
+        "details": "{\"payload\":{\"rid\":[\"audxSlB\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "luis.gomez@stark.lab",
+        "time": "2026-11-04T10:55:18.885519999Z",
+        "message": "Clicked Link",
+        "details": "{\"payload\":{\"rid\":[\"audxSlB\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "luis.gomez@stark.lab",
+        "time": "2026-11-04T10:55:28.629547217Z",
+        "message": "Submitted Data",
+        "details": "{\"payload\":{\"rid\":[\"audxSlB\"],\"username\":[\"prueba\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:58:52.961088467Z",
+        "message": "Clicked Link",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T10:58:58.912994329Z",
+        "message": "Submitted Data",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"],\"username\":[\"sd\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T11:00:48.146406955Z",
+        "message": "Clicked Link",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      },
+      {
+        "campaign_id": 1,
+        "email": "ana.torres@stark.lab",
+        "time": "2026-11-04T11:00:53.42276492Z",
+        "message": "Submitted Data",
+        "details": "{\"payload\":{\"rid\":[\"2eDUFkA\"],\"username\":[\"Ana Torres\"]},\"browser\":{\"address\":\"192.168.56.102\",\"user-agent\":\"Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0\"}}"
+      }
+    ],
+    "smtp": {
+      "id": 1,
+      "interface_type": "SMTP",
+      "name": "Lab-MailHog",
+      "host": "localhost:1025",
+      "from_address": "actualizaciones@soporte-stark.lab",
+      "ignore_cert_errors": true,
+      "headers": [],
+      "modified_date": "2026-11-04T10:12:17.721866704Z"
+    },
+    "url": "http://192.168.56.102"
+  }
+]

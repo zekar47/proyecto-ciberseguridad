@@ -1,0 +1,7 @@
+[srv] $ ./firewall/revertir_firewall.sh && nft list tables | grep stark_fw || echo 'Tabla stark_fw retirada: host como al inicio'
+[+] Tabla stark_fw eliminada.
+Tabla stark_fw retirada: host como al inicio
+
+[kali] $ nc -zv -w 4 -s 192.168.56.110 192.168.56.1 3306
+Connection to 192.168.56.1 3306 port [tcp/mysql] succeeded!
+

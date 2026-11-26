@@ -1,0 +1,74 @@
+#!/usr/sbin/nft -f
+# =====================================================================
+#  Stark Manufactura (ficticia) - Proyecto final de Ciberseguridad
+#  Parte B - Opcion A: firewall de SRV-STARK-01 con nftables
+#
+#  Implementa las reglas disenadas en el avance (seccion "Conexiones y
+#  reglas de firewall") sobre la interfaz del laboratorio (host-only).
+#  Solo filtra el trafico que ENTRA por la interfaz del laboratorio;
+#  el resto de interfaces del host (Wi-Fi, loopback) no se tocan.
+#
+#  Roles simulados por IP dentro de 192.168.56.0/24 (segmento unico):
+#    192.168.56.110  -> "Usuarios"        (representa VLAN 10)
+#    192.168.56.130  -> "Administracion"  (representa VLAN 30)
+#    cualquier otra  -> sin rol -> denegado por defecto
+#
+#  @LAB_IF@ lo sustituye aplicar_firewall.sh por la interfaz real
+#  (normalmente vboxnet0).
+# =====================================================================
+
+# Crear-y-borrar: permite recargar el archivo sin duplicar reglas.
+table inet stark_fw
+delete table inet stark_fw
+
+table inet stark_fw {
+
+    # --- Conjuntos (equivalen a los segmentos del diseno) -------------
+    set usuarios {
+        type ipv4_addr
+        elements = { 192.168.56.110 }
+    }
+    set administracion {
+        type ipv4_addr
+        elements = { 192.168.56.130 }
+    }
+    # Equipos aislados durante un incidente (se llena con cuarentena.sh)
+    set cuarentena {
+        type ipv4_addr
+        flags timeout
+    }
+
+    chain input {
+        type filter hook input priority filter; policy drop;
+
+        # Solo se gobierna la interfaz del laboratorio.
+        iifname != "@LAB_IF@" accept
+
+        # R0 - Contencion de incidentes: un equipo en cuarentena no habla con el servidor.
+        ip saddr @cuarentena counter log prefix "STARK-FW CUARENTENA: " level warn drop
+
+        # Trafico de respuesta a conexiones ya permitidas.
+        ct state established,related counter accept
+        ct state invalid counter log prefix "STARK-FW INVALIDO: " level warn drop
+
+        # R3 - SSH (22) solo desde Administracion. Se registra cada sesion nueva (auditoria).
+        ip saddr @administracion tcp dport 22 ct state new counter log prefix "STARK-FW SSH-ADMIN: " level info accept
+
+        # R1 - Comparticion de archivos de ingenieria (SMB 139/445) desde Usuarios y Administracion.
+        ip saddr @usuarios tcp dport { 139, 445 } counter accept
+        ip saddr @administracion tcp dport { 139, 445 } counter accept
+
+        # Diagnostico: ping solo desde Administracion, con limite de tasa.
+        ip saddr @administracion icmp type echo-request limit rate 5/second counter accept
+
+        # R4 - SSH desde cualquier otro origen: bloqueado y registrado.
+        tcp dport 22 counter log prefix "STARK-FW BLOQ-SSH: " level warn drop
+
+        # Hallazgo Nmap 3 - MariaDB (3306) no inventariada: nadie la alcanza por red.
+        tcp dport 3306 counter log prefix "STARK-FW BLOQ-DB: " level warn drop
+
+        # R9 - Denegacion por defecto: todo lo demas se registra (con limite) y se descarta.
+        limit rate 20/second burst 40 packets counter log prefix "STARK-FW BLOQ-DEFAULT: " level warn
+        counter drop
+    }
+}

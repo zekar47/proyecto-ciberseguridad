@@ -1,0 +1,16 @@
+[kali] $ timeout 8 ssh -T -b 192.168.56.110 -o ConnectTimeout=5 -o BatchMode=yes luis.oper@192.168.56.1; echo "[salida $?] Usuarios -> SSH: sin respuesta, bloqueado por R4"
+ssh: connect to host 192.168.56.1 port 22: Connection timed out
+[salida 255] Usuarios -> SSH: sin respuesta, bloqueado por R4
+
+[kali] $ timeout 8 ssh -T -b 192.168.56.130 -o ConnectTimeout=5 -o BatchMode=yes ana.ti@192.168.56.1; echo "[salida $?] Administracion -> SSH: llega a sshd y pide autenticacion (R3)"
+ana.ti@192.168.56.1: Permission denied (publickey,password).
+[salida 255] Administracion -> SSH: llega a sshd y pide autenticacion (R3)
+
+[kali] $ timeout 8 mariadb -h 192.168.56.1 --connect-timeout=5 -u prueba -e 'select 1'; echo "[salida $?] Kali -> MariaDB 3306: sin conexion"
+ERROR 2002 (HY000): Can't connect to server on '192.168.56.1' (110)
+[salida 1] Kali -> MariaDB 3306: sin conexion
+
+[kali] $ nc -zv -w 4 -s 192.168.56.130 192.168.56.1 3306; echo "[salida $?] Administracion -> MariaDB 3306: tambien bloqueado"
+nc: connect to 192.168.56.1 port 3306 (tcp) timed out: Operation now in progress
+[salida 1] Administracion -> MariaDB 3306: tambien bloqueado
+

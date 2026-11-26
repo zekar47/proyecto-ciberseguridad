@@ -1,0 +1,24 @@
+#!/usr/bin/expect -f
+# Prueba de inicio de sesion SSH, respondiendo las preguntas del servidor.
+# Uso: prueba_login.exp <usuario> <host> <contrasena> [codigo_TOTP]
+# Solo para laboratorio: las contrasenas son ficticias.
+set timeout 15
+set usuario [lindex $argv 0]
+set host    [lindex $argv 1]
+set clave   [lindex $argv 2]
+set codigo  [lindex $argv 3]
+log_user 1
+spawn ssh -o StrictHostKeyChecking=accept-new -o PubkeyAuthentication=no \
+    -o PreferredAuthentications=keyboard-interactive,password -o NumberOfPasswordPrompts=1 \
+    $usuario@$host "echo; echo \"SESION INICIADA -> usuario: \$(whoami) | grupos: \$(id -Gn) | servidor: SRV-STARK-01\""
+expect {
+    "assword:" { send "$clave\r"; exp_continue }
+    "erification code:" {
+        if {$codigo eq ""} { send "\r" } else { send "$codigo\r" }
+        exp_continue
+    }
+    "SESION INICIADA" { expect eof; exit 0 }
+    -re "Permission denied.*" { expect eof; exit 1 }
+    timeout { puts "\n(tiempo agotado)"; exit 2 }
+    eof
+}

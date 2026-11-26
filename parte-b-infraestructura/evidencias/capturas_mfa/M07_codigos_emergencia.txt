@@ -1,0 +1,13 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+# 21:57:46 codigo de emergencia aceptado; 21:58:12 mismo codigo rechazado
+2026-11-26T21:57:23 srv-stark-01 sshd[2316]: Connection closed by authenticating user ana.ti 192.168.64.1 port 49761 [preauth]
+2026-11-26T21:57:46 srv-stark-01 sshd(pam_google_authenticator)[2338]: Accepted google_authenticator for ana.ti
+2026-11-26T21:57:46 srv-stark-01 sshd[2336]: Accepted keyboard-interactive/pam for ana.ti from 192.168.64.1 port 49777 ssh2
+2026-11-26T21:57:46 srv-stark-01 sshd[2336]: pam_unix(sshd:session): session opened for user ana.ti(uid=1001) by ana.ti(uid=0)
+2026-11-26T21:57:59 srv-stark-01 sshd[2407]: Received disconnect from 192.168.64.1 port 49777:11: disconnected by user
+2026-11-26T21:57:59 srv-stark-01 sshd[2407]: Disconnected from user ana.ti 192.168.64.1 port 49777
+2026-11-26T21:57:59 srv-stark-01 sshd[2336]: pam_unix(sshd:session): session closed for user ana.ti
+2026-11-26T21:58:12 srv-stark-01 sshd(pam_google_authenticator)[2421]: Invalid verification code for ana.ti
+2026-11-26T21:58:14 srv-stark-01 sshd[2419]: error: PAM: Authentication failure for ana.ti from 192.168.64.1
+2026-11-26T21:58:55 srv-stark-01 sshd[2419]: Connection closed by authenticating user ana.ti 192.168.64.1 port 49780 [preauth]
+codigos de emergencia restantes: 4 de 5

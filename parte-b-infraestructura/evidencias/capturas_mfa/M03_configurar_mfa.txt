@@ -1,0 +1,18 @@
+# Laboratorio real: Mac Apple Silicon + VM Ubuntu Server 24.04.5 (UTM), SRV-STARK-01 = 192.168.64.5, Estacion TI = 192.168.64.1. Horas en UTC (CST = UTC-6).
+[srv] $ sudo sshd -t && echo OK
+OK
+[srv] $ sudo sshd -T | grep ...
+usepam yes
+passwordauthentication no
+kbdinteractiveauthentication yes
+authenticationmethods keyboard-interactive
+[srv] $ cat /etc/ssh/sshd_config.d/10-stark-mfa.conf
+UsePAM yes
+KbdInteractiveAuthentication yes
+PasswordAuthentication no
+AuthenticationMethods keyboard-interactive
+[srv] $ sed -n "/STARK-MFA inicio/,/STARK-MFA fin/p" /etc/pam.d/sshd
+# STARK-MFA inicio: segundo factor (TOTP) solo para el grupo privilegiado stark_ti
+auth [success=1 default=ignore] pam_succeed_if.so user notingroup stark_ti quiet
+auth required pam_google_authenticator.so
+# STARK-MFA fin

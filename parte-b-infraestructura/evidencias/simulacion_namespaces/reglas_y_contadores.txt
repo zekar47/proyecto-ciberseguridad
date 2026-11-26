@@ -1,0 +1,32 @@
+table inet stark_fw {
+	set usuarios {
+		type ipv4_addr
+		elements = { 192.168.56.110 }
+	}
+
+	set administracion {
+		type ipv4_addr
+		elements = { 192.168.56.130 }
+	}
+
+	set cuarentena {
+		type ipv4_addr
+		flags timeout
+	}
+
+	chain input {
+		type filter hook input priority filter; policy drop;
+		iifname != "vtest0" accept
+		ip saddr @cuarentena counter packets 3 bytes 180 log prefix "STARK-FW CUARENTENA: " drop
+		ct state established,related counter packets 12 bytes 624 accept
+		ct state invalid counter packets 0 bytes 0 log prefix "STARK-FW INVALIDO: " drop
+		ip saddr @administracion tcp dport 22 ct state new counter packets 1 bytes 60 log prefix "STARK-FW SSH-ADMIN: " level info accept
+		ip saddr @usuarios tcp dport { 139, 445 } counter packets 2 bytes 120 accept
+		ip saddr @administracion tcp dport { 139, 445 } counter packets 1 bytes 60 accept
+		ip saddr @administracion icmp type echo-request limit rate 5/second burst 5 packets counter packets 0 bytes 0 accept
+		tcp dport 22 counter packets 6 bytes 360 log prefix "STARK-FW BLOQ-SSH: " drop
+		tcp dport 3306 counter packets 6 bytes 360 log prefix "STARK-FW BLOQ-DB: " drop
+		limit rate 20/second burst 40 packets counter packets 3 bytes 180 log prefix "STARK-FW BLOQ-DEFAULT: "
+		counter packets 3 bytes 180 drop
+	}
+}

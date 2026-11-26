@@ -1,0 +1,42 @@
+[srv] $ ./firewall/ver_registros.sh '30 min ago'
+=== Eventos por tipo ===
+     21 STARK-FW BLOQ-DB
+     15 STARK-FW BLOQ-SSH
+     13 STARK-FW BLOQ-DEFAULT
+      4 STARK-FW SSH-ADMIN
+
+=== Origen -> puerto destino (top 15) ===
+     10 STARK-FW BLOQ-SSH  192.168.56.110 -> 22
+      9 STARK-FW BLOQ-DB  192.168.56.130 -> 3306
+      7 STARK-FW BLOQ-DB  192.168.56.102 -> 3306
+      5 STARK-FW BLOQ-SSH  192.168.56.102 -> 22
+      5 STARK-FW BLOQ-DEFAULT  192.168.56.102 -> 445
+      5 STARK-FW BLOQ-DB  192.168.56.110 -> 3306
+      4 STARK-FW SSH-ADMIN  192.168.56.130 -> 22
+      2 STARK-FW BLOQ-DEFAULT  192.168.56.130 -> 80
+      2 STARK-FW BLOQ-DEFAULT  192.168.56.110 -> 80
+      2 STARK-FW BLOQ-DEFAULT  192.168.56.102 -> 80
+      2 STARK-FW BLOQ-DEFAULT  192.168.56.102 -> 139
+
+=== Ultimos 10 eventos (tiempo | regla | origen -> destino:puerto) ===
+[  834.090666]  | STARK-FW SSH-ADMIN | 192.168.56.130 -> 192.168.56.1:22
+[  834.221299]  | STARK-FW BLOQ-DB | 192.168.56.102 -> 192.168.56.1:3306
+[  835.238424]  | STARK-FW BLOQ-DB | 192.168.56.102 -> 192.168.56.1:3306
+[  836.262353]  | STARK-FW BLOQ-DB | 192.168.56.102 -> 192.168.56.1:3306
+[  837.286402]  | STARK-FW BLOQ-DB | 192.168.56.102 -> 192.168.56.1:3306
+[  838.310365]  | STARK-FW BLOQ-DB | 192.168.56.102 -> 192.168.56.1:3306
+[  839.232820]  | STARK-FW BLOQ-DB | 192.168.56.130 -> 192.168.56.1:3306
+[  840.262430]  | STARK-FW BLOQ-DB | 192.168.56.130 -> 192.168.56.1:3306
+[  841.286409]  | STARK-FW BLOQ-DB | 192.168.56.130 -> 192.168.56.1:3306
+[  842.310402]  | STARK-FW BLOQ-DB | 192.168.56.130 -> 192.168.56.1:3306
+
+=== Contadores de reglas ===
+		ct state established,related counter packets 53 bytes 6375 accept
+		ip saddr @administracion tcp dport 22 ct state new counter packets 4 bytes 224 log prefix "STARK-FW SSH-ADMIN: " level info accept
+		ip saddr @usuarios tcp dport { 139, 445 } counter packets 6 bytes 328 accept
+		ip saddr @administracion tcp dport { 139, 445 } counter packets 6 bytes 328 accept
+		tcp dport 22 counter packets 15 bytes 836 log prefix "STARK-FW BLOQ-SSH: " drop
+		tcp dport 3306 counter packets 21 bytes 1164 log prefix "STARK-FW BLOQ-DB: " drop
+		limit rate 20/second burst 40 packets counter packets 13 bytes 620 log prefix "STARK-FW BLOQ-DEFAULT: "
+		counter packets 13 bytes 620 drop
+
